@@ -11,10 +11,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "scr2tapUI", "scr2tapUI\scr2
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "convertScr", "convertScr\convertScr.csproj", "{84719005-9AAF-4E13-A712-574D0F48C62D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConverterZXFile", "ConverterZXFile\ConverterZXFile.csproj", "{7E412A4F-5B16-4A43-9FB8-C8317425A852}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bin2Tap", "Bin2Tap\Bin2Tap.csproj", "{CDCFD4C4-6563-4D0D-8AEF-A53427222A39}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,14 +29,6 @@ Global
 		{84719005-9AAF-4E13-A712-574D0F48C62D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{84719005-9AAF-4E13-A712-574D0F48C62D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{84719005-9AAF-4E13-A712-574D0F48C62D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7E412A4F-5B16-4A43-9FB8-C8317425A852}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7E412A4F-5B16-4A43-9FB8-C8317425A852}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7E412A4F-5B16-4A43-9FB8-C8317425A852}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7E412A4F-5B16-4A43-9FB8-C8317425A852}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CDCFD4C4-6563-4D0D-8AEF-A53427222A39}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CDCFD4C4-6563-4D0D-8AEF-A53427222A39}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CDCFD4C4-6563-4D0D-8AEF-A53427222A39}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CDCFD4C4-6563-4D0D-8AEF-A53427222A39}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
