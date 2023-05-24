@@ -10,6 +10,7 @@ using convertScr;
 
 namespace scr2tap
 {
+    [Obsolete]
     internal class Program
     {
         static int Main(string[] args)

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace convertScr
 {
+    [Obsolete("Use ZxFileConverter")]
     public class ConvertScr
     {
         public void ToTap(string[] files)
@@ -85,7 +86,7 @@ namespace convertScr
                     checksum ^= b;
                 }
 
-                // Agreaga checksum
+                // Agrega checksum
                 bytes.Add(checksum);
 
                 // Crea el fichero de salida y lo graba

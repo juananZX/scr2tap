@@ -1,0 +1,76 @@
+﻿<Window 
+    x:Class="TransformZxFiles.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local="clr-namespace:TransformZxFiles"
+    mc:Ignorable="d"
+    Title="Transform ZX Spectrum files" 
+    
+    Height="600" Width="800"
+    ResizeMode="CanMinimize"
+    WindowStyle="ThreeDBorderWindow">
+
+    <Grid>
+        <TabControl>
+            <TabItem 
+                Header="Bin to tap"
+                Width="200">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="10"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="10"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="10"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="10"></RowDefinition>
+                    </Grid.RowDefinitions>
+
+                    <Button
+                        Grid.Row="1"
+                        Content="Add files"
+                        Command="{Binding Path=FindBinaryCommand}">
+                    </Button>
+                    
+                    <DataGrid
+                        Grid.Row="3"
+                        ItemsSource="{Binding Path=BinaryFiles}">
+
+                        <DataGrid.Columns>
+                            <DataGridTextColumn
+                                Header="File"
+                                Binding="{Binding Path=Filename}"
+                                IsReadOnly="true"
+                                Width="*">
+
+                                <DataGridTextColumn.CellStyle>
+                                    <Style TargetType="DataGridCell">
+                                        <Setter Property="Background" Value="LightGray"></Setter>
+                                    </Style>
+                                </DataGridTextColumn.CellStyle>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn
+                                Header="Header"
+                                Binding="{Binding Path=Header, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                Width="*">
+
+                                <DataGridTextColumn.EditingElementStyle>
+                                    <Style TargetType="TextBox">
+                                        <Setter Property="MaxLength" Value="10"></Setter>
+                                    </Style>
+                                </DataGridTextColumn.EditingElementStyle>
+                            </DataGridTextColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+            <TabItem 
+                Header="Screen to image"
+                Width="200">
+            </TabItem>
+        </TabControl>    
+    </Grid>
+</Window>
