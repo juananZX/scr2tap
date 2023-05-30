@@ -25,12 +25,12 @@ namespace ZxFilesConverter
                     using (FileStream r = new FileStream(arg, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
                     {
                         buffer = new byte[r.Length];
-                        r.Read(buffer, 0, (int)r.Length);
+                        r.Read(buffer, 0, buffer.Length);
                         r.Close();
                     }
 
                     buffer = ZxFileConverter.Bin2Tap(buffer, name);
-
+                    
                     using (FileStream w = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None, buffer.Length))
                     {
                         w.Write(buffer, 0, buffer.Length);

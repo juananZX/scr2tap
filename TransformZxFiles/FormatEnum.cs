@@ -8,10 +8,10 @@ namespace ZxFilesConverter
 {
     internal enum FormatEnum
     {
-        tap,
         bmp,
         gif,
-        jpg,
-        png
+        jpeg,
+        png,
+        tap
     }
 }

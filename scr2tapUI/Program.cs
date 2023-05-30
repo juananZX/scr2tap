@@ -6,6 +6,7 @@ using System.Windows.Forms;
 
 namespace scr2tapUI
 {
+    [Obsolete]
     internal static class Program
     {
         /// <summary>

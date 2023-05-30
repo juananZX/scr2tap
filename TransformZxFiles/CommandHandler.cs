@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace ZxFilesConverter
 {
     public class CommandHandler : ICommand
     {
-        private Action _action;
+        private Action<object> _action;
         private Func<bool> _canExecute;
 
         /// <summary>
@@ -17,7 +13,7 @@ namespace ZxFilesConverter
         /// </summary>
         /// <param name="action">Action to be executed by the command</param>
         /// <param name="canExecute">A bolean property to containing current permissions to execute the command</param>
-        public CommandHandler(Action action, Func<bool> canExecute)
+        public CommandHandler(Action<object> action, Func<bool> canExecute)
         {
             _action = action;
             _canExecute = canExecute;
@@ -44,7 +40,7 @@ namespace ZxFilesConverter
 
         public void Execute(object parameter)
         {
-            _action();
+            _action(parameter);
         }
     }
 }

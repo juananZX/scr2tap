@@ -37,6 +37,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -57,6 +58,7 @@
     </ApplicationDefinition>
     <Compile Include="CommandHandler.cs" />
     <Compile Include="FormatEnum.cs" />
+    <Compile Include="Translator.cs" />
     <Compile Include="ViewModel.cs" />
     <Compile Include="ZXFile.cs" />
     <Page Include="MainWindow.xaml">
@@ -103,6 +105,9 @@
       <Project>{b59d790c-a1d9-4452-99e8-f229b5569392}</Project>
       <Name>ZxFilesConverter</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Zx.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -27,18 +27,7 @@ namespace TransformZxFiles
         {
             InitializeComponent();
 
-            ViewModel vm = new ViewModel();
-
-            vm.BinaryFiles.Add(new ZXFile("", "Game Over", "Game Over", "", FormatEnum.tap));
-            vm.BinaryFiles.Add(new ZXFile("", "La abadía del crimen", "Abadia", "", FormatEnum.tap));
-            vm.BinaryFiles.Add(new ZXFile("", "Sir Fred", "SirFred", "", FormatEnum.tap));
-
-            this.DataContext = vm;
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-
+            this.DataContext = new ViewModel();
         }
     }
 }

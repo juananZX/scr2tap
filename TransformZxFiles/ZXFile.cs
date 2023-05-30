@@ -11,19 +11,16 @@ namespace ZxFilesConverter
         string header = string.Empty;
 
         public ZXFile():
-            this(string.Empty, string.Empty, string.Empty, string.Empty, FormatEnum.tap) 
+            this(filename: string.Empty, header: string.Empty, path: string.Empty, format: FormatEnum.tap)
         { }
 
-        public ZXFile(string destiny, string filename, string header, string path, FormatEnum format)
+        public ZXFile(string filename, string header, string path, FormatEnum format)
         {
-            Destiny = destiny;
             Filename = filename;
             Header = header;
             Path = path;
             Format = format;
         }
-
-        public string Destiny { get; set; }
 
         public string Filename { get; set; }
 
