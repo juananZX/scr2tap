@@ -375,12 +375,19 @@ namespace ZxFilesConverter
                                     break;
                             }
 
+                            string output = f.Path.Replace(Path.GetExtension(f.Path), extension);
+
+                            if (!string.IsNullOrWhiteSpace(OutputFolder))
+                            {
+                                output = string.Format("{0}{1}{2}", OutputFolder, f.Filename, extension);
+                            }
+
                             ImageCodecInfo codec = GetEncoderInfo(mime);
                             System.Drawing.Imaging.Encoder encoder = System.Drawing.Imaging.Encoder.Quality;
                             EncoderParameters parameters = new EncoderParameters(1);
                             EncoderParameter parameter = new EncoderParameter(encoder, 100L);
                             parameters.Param[0] = parameter;
-                            bmp.Save(f.Path.Replace(Path.GetExtension(f.Path), extension), codec, parameters);
+                            bmp.Save(output, codec, parameters);
                         }
                     }
                 }
