@@ -26,6 +26,8 @@ namespace ZxFilesConverter
 
         public string Language { get; set; }
 
+        public string OriginFolder { get; set; }
+
         public string Output { get; set; }
 
         public string ProcessSuccess { get; set; }
@@ -59,7 +61,8 @@ namespace ZxFilesConverter
             Format = "Format";
             Header = "Header";
             Language = "Language";
-            Output = "Output";
+            OriginFolder = "To origin folder";
+            Output = "Output folder";
             ProcessSuccess = "Process success";
             Remove = "Remove";
             ScreenToImage = "Screen to image";
@@ -76,7 +79,8 @@ namespace ZxFilesConverter
             Format = "Formato";
             Header = "Cabecera";
             Language = "Idioma";
-            Output = "Salida";
+            OriginFolder = "En carpeta origen";
+            Output = "Carpeta de salida";
             ProcessSuccess = "Proceso finalizado";
             Remove = "Quitar";
             ScreenToImage = "Pantalla a imagen";

@@ -30,16 +30,23 @@
                 <ColumnDefinition Width="10"></ColumnDefinition>
                 <ColumnDefinition Width="200"></ColumnDefinition>
                 <ColumnDefinition Width="10"></ColumnDefinition>
-                <ColumnDefinition Width="Auto"></ColumnDefinition>
-                <ColumnDefinition Width="10"></ColumnDefinition>
                 <ColumnDefinition Width="*"></ColumnDefinition>
                 <ColumnDefinition Width="10"></ColumnDefinition>
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
                 <ColumnDefinition Width="10"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="10"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
 
             <TextBlock
                 Grid.Column="1"
+                Grid.Row="0"
                 
                 Text="{Binding Path=Translator.Language, UpdateSourceTrigger=PropertyChanged}"
                 Width="55">
@@ -47,31 +54,45 @@
 
             <ComboBox
                 Grid.Column="3"
+                Grid.Row="0"
                 
                 DisplayMemberPath="Value"
                 ItemsSource="{Binding Path=Languages}"
                 SelectedItem="{Binding Path=LanguageSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
             </ComboBox>
 
-            <Button
-                Grid.Column="5"
+            <TextBlock
+                Grid.Column="1"
+                Grid.Row="2"
                 
-                Content="{Binding Path=Translator.Output, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                Command="{Binding Path=OutputCommand}"
-                CommandParameter="binary">
-            </Button>
-            
+                Text="{Binding Path=Translator.Output, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                Width="100">
+            </TextBlock>
+
             <TextBox
-                Grid.Column="7"
+                Grid.Column="3"
+                Grid.Row="2"
+                Grid.ColumnSpan="3"
                 
                 IsReadOnly="True"
                 Text="{Binding Path=OutputFolder, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
             </TextBox>
 
             <Button
-                Grid.Column="9"
+                Grid.Column="7"
+                Grid.Row="2"
                 
-                Content="{Binding Path=Translator.Clear, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                Content="..."
+                Command="{Binding Path=OutputCommand}"
+                CommandParameter="binary"
+                Width="30">
+            </Button>
+
+            <Button
+                Grid.Column="9"
+                Grid.Row="2"
+                
+                Content="{Binding Path=Translator.OriginFolder, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                 Command="{Binding Path=ClearCommand}"
                 CommandParameter="binary">
             </Button>
@@ -91,9 +112,6 @@
                         <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="10"></RowDefinition>
                         <RowDefinition Height="*"></RowDefinition>
-                        <RowDefinition Height="10"></RowDefinition>
-                        <RowDefinition Height="Auto"></RowDefinition>
-                        <RowDefinition Height="10"></RowDefinition>
                     </Grid.RowDefinitions>
 
                     <Grid
@@ -199,9 +217,6 @@
                         <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="10"></RowDefinition>
                         <RowDefinition Height="*"></RowDefinition>
-                        <RowDefinition Height="10"></RowDefinition>
-                        <RowDefinition Height="Auto"></RowDefinition>
-                        <RowDefinition Height="10"></RowDefinition>
                     </Grid.RowDefinitions>
 
                     <Grid
@@ -269,7 +284,7 @@
                         <DataGrid.Columns>
                             <DataGridTextColumn
                                 Binding="{Binding Path=Filename}"
-                                IsReadOnly="true"
+                                IsReadOnly="True"
                                 Width="*">
 
                                 <DataGridTextColumn.Header>

@@ -24,5 +24,9 @@
             <Setter Property="HeadersVisibility" Value="Column"></Setter>
             <Setter Property="SelectionMode" Value="Single"></Setter>
         </Style>
+
+        <Style TargetType="TextBlock">
+            <Setter Property="HorizontalAlignment" Value="Left"></Setter>
+        </Style>
     </Application.Resources>
 </Application>
