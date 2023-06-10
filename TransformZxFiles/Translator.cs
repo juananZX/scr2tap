@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -9,6 +10,8 @@ namespace ZxFilesConverter
     internal class Translator
     {
         public string AddFiles { get; set; }
+
+        public string Address { get; set; }
 
         public string AppTitle { get; set; }
 
@@ -19,6 +22,8 @@ namespace ZxFilesConverter
         public string Code { get; set; }
 
         public string File { get; set; }
+
+        public string Filename { get; set; }
 
         public string Format { get; set; }
 
@@ -54,10 +59,12 @@ namespace ZxFilesConverter
         private void LoadEn()
         {
             AddFiles = "Add files";
+            Address = "Address";
             AppTitle = "Transform ZX Spectrum files";
             BinToTap = "Bin to tap";
             Clear = "Clear";
             File = "File";
+            Filename = "File";
             Format = "Format";
             Header = "Header";
             Language = "Language";
@@ -72,10 +79,12 @@ namespace ZxFilesConverter
         private void LoadEs()
         {
             AddFiles = "Añadir archivos";
+            Address = "Dirección";
             AppTitle = "Conversor de archivos de ZX Spectrum";
             BinToTap = "Binario a cinta";
             Clear = "Limpiar";
             File = "Archivo";
+            Filename = "Archivo";
             Format = "Formato";
             Header = "Cabecera";
             Language = "Idioma";

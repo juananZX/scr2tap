@@ -1,10 +1,12 @@
 ﻿<Window 
+    x:Name="WindowMain"
     x:Class="TransformZxFiles.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:local="clr-namespace:TransformZxFiles"
+    xmlns:controls="clr-namespace:ZxFilesConverter"
     mc:Ignorable="d"
     
     Cursor="{Binding Path=Cursor, UpdateSourceTrigger=PropertyChanged}" 
@@ -188,6 +190,23 @@
                                 </DataGridTextColumn.EditingElementStyle>
                             </DataGridTextColumn>
 
+                            <DataGridTextColumn
+                                Binding="{Binding Path=Address, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                Width="*">
+
+                                <DataGridTextColumn.Header>
+                                    <TextBlock
+                                        Text="{Binding Path=DataContext.Translator.Address, RelativeSource={RelativeSource AncestorType=Window, Mode=FindAncestor}}">
+                                    </TextBlock>
+                                </DataGridTextColumn.Header>
+
+                                <DataGridTextColumn.EditingElementStyle>
+                                    <Style TargetType="TextBox">
+                                        <Setter Property="MaxLength" Value="5"></Setter>
+                                    </Style>
+                                </DataGridTextColumn.EditingElementStyle>
+                            </DataGridTextColumn>
+
                             <DataGridTemplateColumn
                                 IsReadOnly="True"
                                 Width="100">
@@ -279,6 +298,7 @@
 
                     <DataGrid
                         Grid.Row="3"
+                        HeadersVisibility="None"
                         ItemsSource="{Binding Path=ScreenFiles}">
 
                         <DataGrid.Columns>
@@ -286,12 +306,6 @@
                                 Binding="{Binding Path=Filename}"
                                 IsReadOnly="True"
                                 Width="*">
-
-                                <DataGridTextColumn.Header>
-                                    <TextBlock
-                                        Text="{Binding Path=DataContext.Translator.File, RelativeSource={RelativeSource AncestorType=Window}}">
-                                    </TextBlock>
-                                </DataGridTextColumn.Header>
                             </DataGridTextColumn>
 
                             <DataGridTemplateColumn

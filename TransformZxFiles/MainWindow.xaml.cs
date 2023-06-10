@@ -29,5 +29,10 @@ namespace TransformZxFiles
 
             this.DataContext = new ViewModel();
         }
+
+        private void DataGridTemplateColumn_SourceUpdated(object sender, DataTransferEventArgs e)
+        {
+
+        }
     }
 }

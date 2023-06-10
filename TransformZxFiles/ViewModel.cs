@@ -18,6 +18,8 @@ using System.Windows.Media.Animation;
 using TransformZxFiles;
 using ZxFilesConverter.Properties;
 
+using Forms = System.Windows.Forms;
+
 namespace ZxFilesConverter
 {
     internal class ViewModel : INotifyPropertyChanged
@@ -238,13 +240,15 @@ namespace ZxFilesConverter
                 {
                     foreach (string file in dlg.FileNames)
                     {
+                        bool isScr = Path.GetExtension(file).ToLower() == ".scr";
+
                         string filename = Path.GetFileName(file).Replace(Path.GetExtension(file), "");
 
                         if (BinaryFiles.Any(i => i.Filename.Equals(filename, StringComparison.OrdinalIgnoreCase))) continue;
 
                         string header = filename.ZXCharacter().PadRight(10, ' ').Substring(0, 10).TrimEnd(' ');
 
-                        BinaryFiles.Add(new ZXFile(filename, header, file, FormatEnum.tap));
+                        BinaryFiles.Add(new ZXFile(filename, header, file, FormatEnum.tap, isScr ? 0x4000 : 0x00));
                     }
                 }
                 else
@@ -268,11 +272,13 @@ namespace ZxFilesConverter
 
         private void Output(object param)
         {
-            OpenFileDialog dlg = new OpenFileDialog();
+            // OpenFileDialog dlg = new OpenFileDialog();
+            Forms.FolderBrowserDialog dlg = new Forms.FolderBrowserDialog();
+            dlg.SelectedPath = Settings.Default.outputbinary;
 
-            if (dlg.ShowDialog() == true)
+            if (dlg.ShowDialog() == Forms.DialogResult.OK)
             {
-                string folder = Path.GetFullPath(dlg.FileName).Replace(Path.GetFileName(dlg.FileName), "");
+                string folder = dlg.SelectedPath + "\\";
 
                 OutputFolder = folder;
             }
@@ -316,7 +322,7 @@ namespace ZxFilesConverter
                             r.Close();
                         }
 
-                        buffer = ZxFileConverter.Bin2Tap(buffer, f.Header);
+                        buffer = ZxFileConverter.Bin2Tap(buffer, f.Header, f.Address);
                         string output = f.Path.Replace(Path.GetExtension(f.Path), ".tap");
 
                         if (!string.IsNullOrWhiteSpace(OutputFolder))

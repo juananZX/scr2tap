@@ -21,8 +21,9 @@ namespace ZxFilesConverter
         /// </summary>
         /// <param name="buffer">Array.</param>
         /// <param name="header">Header name.</param>
+        /// <param name="address">Start address.</param>
         /// <returns>Contents of a tape file</returns>
-        public static byte[] Bin2Tap(byte[] buffer, string header)
+        public static byte[] Bin2Tap(byte[] buffer, string header, int address = 0)
         {
             //
             // HEADER
@@ -43,9 +44,9 @@ namespace ZxFilesConverter
             // Length buffer
             data.Add((byte)(buffer.Length % 0x0100));
             data.Add((byte)((buffer.Length - (buffer.Length % 0x0100)) / 0x0100));
-            // Param 1 (16384)
-            data.Add(0x00);
-            data.Add(0x40);
+            // Param 1 (start address)
+            data.Add((byte)(address % 0x0100));
+            data.Add((byte)((address - (address % 0x0100)) / 0x0100));
             // Param 2 (32768)
             data.Add(0x00);
             data.Add(0x80);
@@ -88,14 +89,15 @@ namespace ZxFilesConverter
         /// </summary>
         /// <param name="stream">Stream.</param>
         /// <param name="header">Header name.</param>
+        /// /// <param name="address">Start address.</param>
         /// <returns>Contents of a tape file</returns>
-        public static byte[] Bin2Tap(Stream stream, string header)
+        public static byte[] Bin2Tap(Stream stream, string header, int address = 0)
         {
             byte[] buffer = new byte[stream.Length];
 
             stream.Read(buffer, 0, (int)stream.Length);
 
-            return Bin2Tap(buffer, header);
+            return Bin2Tap(buffer, header, address);
         } // Bin2Tap
         #endregion
 
