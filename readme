@@ -6,3 +6,7 @@ Convert ZX Spectrum screen files to tape files.
 
 20/05/2023 scr2tap 1.1
     Added UI.
+
+05/06/2023 scr2tap 1.2
+    New UI.
+    Added conversion of screen files to image files in UI.
