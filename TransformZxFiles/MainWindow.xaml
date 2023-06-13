@@ -184,7 +184,7 @@
                                         Text="{Binding Path=DataContext.Translator.Header, RelativeSource={RelativeSource AncestorType=Window, Mode=FindAncestor}}">
                                     </TextBlock>
                                 </DataGridTextColumn.Header>
-                                
+
                                 <DataGridTextColumn.EditingElementStyle>
                                     <Style TargetType="TextBox">
                                         <Setter Property="MaxLength" Value="10"></Setter>
@@ -192,6 +192,29 @@
                                 </DataGridTextColumn.EditingElementStyle>
                             </DataGridTextColumn>
 
+                            <DataGridTemplateColumn
+                                Width="100">
+
+                                <DataGridTemplateColumn.Header>
+                                    <TextBlock
+                                        Text="{Binding Path=DataContext.Translator.BlockType, RelativeSource={RelativeSource AncestorType=Window, Mode=FindAncestor}}"></TextBlock>
+                                </DataGridTemplateColumn.Header>
+                                
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <ComboBox
+                                            SelectedIndex="{Binding Path=BlockType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+
+                                            <ComboBox.Items>
+                                                <ComboBoxItem IsSelected="True">Bytes</ComboBoxItem>
+                                                <ComboBoxItem>Program</ComboBoxItem>
+                                                <ComboBoxItem>Autoload</ComboBoxItem>
+                                            </ComboBox.Items>
+                                        </ComboBox>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>    
+                            </DataGridTemplateColumn>
+                            
                             <DataGridTextColumn
                                 Binding="{Binding Path=Address, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                 Width="*">

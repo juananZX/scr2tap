@@ -22,8 +22,9 @@ namespace ZxFilesConverter
         /// <param name="buffer">Array.</param>
         /// <param name="header">Header name.</param>
         /// <param name="address">Start address.</param>
+        /// <param name="blockType">BlockType.</param>
         /// <returns>Contents of a tape file</returns>
-        public static byte[] Bin2Tap(byte[] buffer, string header, int address = 0)
+        public static byte[] Bin2Tap(byte[] buffer, string header, int address = 0, int blockType = 0)
         {
             //
             // HEADER
@@ -31,8 +32,10 @@ namespace ZxFilesConverter
             
             // Header length (little endian): 0x13, 0x00
             // Byte flag: 0x00
-            // Block type: 0x00
-            List<byte> data = new List<byte> { 0x13, 0x00, 0x00, 0x03 };
+            List<byte> data = new List<byte> { 0x13, 0x00, 0x00};
+
+            // Block type: 0x00 Program, 0x03 Bytes
+            data.Add((byte)(blockType == 0 ? 0x03 : 0x00));
 
             // Header name
             foreach (char c in header.ZXCharacter().PadRight(10, ' ').Substring(0, 10))
@@ -44,12 +47,22 @@ namespace ZxFilesConverter
             // Length buffer
             data.Add((byte)(buffer.Length % 0x0100));
             data.Add((byte)((buffer.Length - (buffer.Length % 0x0100)) / 0x0100));
-            // Param 1 (start address)
+            // Param 1 (start address / start line)
             data.Add((byte)(address % 0x0100));
             data.Add((byte)((address - (address % 0x0100)) / 0x0100));
-            // Param 2 (32768)
-            data.Add(0x00);
-            data.Add(0x80);
+            // Param 2 (0x8000 / Var area)
+            if (blockType == 0)
+            { 
+                // Bytes
+                data.Add(0x00);
+                data.Add(0x80);
+            }
+            else
+            {
+                // Program
+                data.Add((byte)(buffer.Length % 0x0100));
+                data.Add((byte)((buffer.Length - (buffer.Length % 0x0100)) / 0x0100));
+            }
 
             // Header checksum (excludes bytes 0 & 1)
             byte checksum = 0x00;
@@ -89,15 +102,16 @@ namespace ZxFilesConverter
         /// </summary>
         /// <param name="stream">Stream.</param>
         /// <param name="header">Header name.</param>
-        /// /// <param name="address">Start address.</param>
+        /// <param name="address">Start address.</param>
+        /// <param name="blockType">BlockType.</param>
         /// <returns>Contents of a tape file</returns>
-        public static byte[] Bin2Tap(Stream stream, string header, int address = 0)
+        public static byte[] Bin2Tap(Stream stream, string header, int address = 0, int blockType = 0)
         {
             byte[] buffer = new byte[stream.Length];
 
             stream.Read(buffer, 0, (int)stream.Length);
 
-            return Bin2Tap(buffer, header, address);
+            return Bin2Tap(buffer, header, address, blockType);
         } // Bin2Tap
         #endregion
 

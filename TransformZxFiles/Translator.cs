@@ -17,6 +17,8 @@ namespace ZxFilesConverter
 
         public string BinToTap { get; set; }
 
+        public string BlockType { get; set; }
+
         public string Clear { get; set; }
 
         public string Code { get; set; }
@@ -59,9 +61,10 @@ namespace ZxFilesConverter
         private void LoadEn()
         {
             AddFiles = "Add files";
-            Address = "Address";
+            Address = "Address / Line";
             AppTitle = "Transform ZX Spectrum files";
             BinToTap = "Bin to tap";
+            BlockType = "Block type";
             Clear = "Clear";
             File = "File";
             Filename = "File";
@@ -79,9 +82,10 @@ namespace ZxFilesConverter
         private void LoadEs()
         {
             AddFiles = "Añadir archivos";
-            Address = "Dirección";
+            Address = "Dirección / Línea";
             AppTitle = "Conversor de archivos de ZX Spectrum";
             BinToTap = "Binario a cinta";
+            BlockType = "Tipo de bloque";
             Clear = "Limpiar";
             File = "Archivo";
             Filename = "Archivo";

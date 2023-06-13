@@ -47,6 +47,13 @@ namespace ZxFilesConverter
             Translator = new Translator();
             Translator.Code = Settings.Default.language;
 
+            BlockTypes = new Dictionary<int, string>
+            {
+                {0, "Bytes" },
+                {1, "Program" },
+                {2, "Autoload" }
+            };
+
             Languages = new Dictionary<string, string>
             {
                 { "en", "English" },
@@ -94,6 +101,8 @@ namespace ZxFilesConverter
         }
 
         public ObservableCollection<ZXFile> BinaryFiles { get; private set; }
+
+        public Dictionary<int, string> BlockTypes { get; set; }
 
         public CommandHandler ClearCommand
         {
@@ -218,8 +227,8 @@ namespace ZxFilesConverter
             foreach (string file in files)
             {
                 bool isScr = Path.GetExtension(file).ToLower() == ".scr";
-
-                string filename = Path.GetFileName(file).Replace(Path.GetExtension(file), "");
+                string extension = Path.GetExtension(file);
+                string filename = !string.IsNullOrWhiteSpace(extension) ? Path.GetFileName(file).Replace(extension, "") : Path.GetFileName(file);
 
                 if (BinaryFiles.Any(i => i.Filename.Equals(filename, StringComparison.OrdinalIgnoreCase))) continue;
 
@@ -234,7 +243,8 @@ namespace ZxFilesConverter
 
             foreach (string file in files)
             {
-                string filename = Path.GetFileName(file).Replace(Path.GetExtension(file), "");
+                string extension = Path.GetExtension(file);
+                string filename = !string.IsNullOrWhiteSpace(extension) ? Path.GetFileName(file).Replace(extension, "") : Path.GetFileName(file);
 
                 if (ScreenFiles.Any(i => i.Filename.Equals(filename, StringComparison.OrdinalIgnoreCase))) continue;
 
@@ -347,8 +357,9 @@ namespace ZxFilesConverter
                             r.Close();
                         }
 
-                        buffer = ZxFileConverter.Bin2Tap(buffer, f.Header, f.Address);
-                        string output = f.Path.Replace(Path.GetExtension(f.Path), ".tap");
+                        buffer = ZxFileConverter.Bin2Tap(buffer, f.Header, f.Address, f.BlockType);
+                        string oldExtension = Path.GetExtension(f.Path);
+                        string output = !string.IsNullOrWhiteSpace(oldExtension) ? f.Path.Replace(Path.GetExtension(f.Path), ".tap") : f.Path + ".tap";
 
                         if (!string.IsNullOrWhiteSpace(OutputFolder))
                         {
@@ -406,7 +417,8 @@ namespace ZxFilesConverter
                                     break;
                             }
 
-                            string output = f.Path.Replace(Path.GetExtension(f.Path), extension);
+                            string oldExtension = Path.GetExtension(f.Path);
+                            string output = !string.IsNullOrWhiteSpace(oldExtension) ? f.Path.Replace(Path.GetExtension(f.Path), ".tap") : f.Path + ".tap";
 
                             if (!string.IsNullOrWhiteSpace(OutputFolder))
                             {
