@@ -198,7 +198,50 @@ namespace ZxFilesConverter
         public Translator Translator { get; set; }
         #endregion
 
+        #region Public methods
+        public void AddFiles(string[] files, FormatEnum format)
+        {
+            if (format == FormatEnum.tap)
+            {
+                AddBinary(files);
+            }
+            else
+            {
+                AddImage(files);
+            }
+        }
+        #endregion
+
         #region Private methods
+        private void AddBinary(string[] files)
+        {
+            foreach (string file in files)
+            {
+                bool isScr = Path.GetExtension(file).ToLower() == ".scr";
+
+                string filename = Path.GetFileName(file).Replace(Path.GetExtension(file), "");
+
+                if (BinaryFiles.Any(i => i.Filename.Equals(filename, StringComparison.OrdinalIgnoreCase))) continue;
+
+                string header = filename.ZXCharacter().PadRight(10, ' ').Substring(0, 10).TrimEnd(' ');
+
+                BinaryFiles.Add(new ZXFile(filename, header, file, FormatEnum.tap, isScr ? 0x4000 : 0x8000));
+            }
+        }
+
+        private void AddImage(string[] files)
+        {
+
+            foreach (string file in files)
+            {
+                string filename = Path.GetFileName(file).Replace(Path.GetExtension(file), "");
+
+                if (ScreenFiles.Any(i => i.Filename.Equals(filename, StringComparison.OrdinalIgnoreCase))) continue;
+
+                ScreenFiles.Add(new ZXFile(filename, string.Empty, file, FormatEnum.tap));
+            }
+        }
+
         private void Clear(object param)
         {
             if (param?.ToString() == "binary")
@@ -225,11 +268,11 @@ namespace ZxFilesConverter
 
             if (param?.ToString() == "binary")
             {
-                dlg.Filter = "All (*.bin, *.scr)|*.bin;*.scr|Binary (*.bin)|*.bin|Screen (*.scr)|*.scr";
+                dlg.Filter = "All (*.*)|*.*|ZX Spectrum Files (*.bin, *.scr)|*.bin;*.scr|Binary Files (*.bin)|*.bin|Screen Files (*.scr)|*.scr";
             }
             else
             {
-                dlg.Filter = "Screen (*.scr)|*.scr";
+                dlg.Filter = "Screen Files (*.scr)|*.scr";
             }
 
             dlg.Multiselect = true;
@@ -238,29 +281,11 @@ namespace ZxFilesConverter
             {
                 if (param?.ToString() == "binary")
                 {
-                    foreach (string file in dlg.FileNames)
-                    {
-                        bool isScr = Path.GetExtension(file).ToLower() == ".scr";
-
-                        string filename = Path.GetFileName(file).Replace(Path.GetExtension(file), "");
-
-                        if (BinaryFiles.Any(i => i.Filename.Equals(filename, StringComparison.OrdinalIgnoreCase))) continue;
-
-                        string header = filename.ZXCharacter().PadRight(10, ' ').Substring(0, 10).TrimEnd(' ');
-
-                        BinaryFiles.Add(new ZXFile(filename, header, file, FormatEnum.tap, isScr ? 0x4000 : 0x00));
-                    }
+                    AddBinary(dlg.FileNames);
                 }
                 else
                 {
-                    foreach (string file in dlg.FileNames)
-                    {
-                        string filename = Path.GetFileName(file).Replace(Path.GetExtension(file), "");
-
-                        if (ScreenFiles.Any(i => i.Filename.Equals(filename, StringComparison.OrdinalIgnoreCase))) continue;
-
-                        ScreenFiles.Add(new ZXFile(filename, string.Empty, file, FormatEnum.tap));
-                    }
+                    AddImage(dlg.FileNames);
                 }
             }
         }

@@ -152,7 +152,9 @@
 
                     <DataGrid
                         Grid.Row="3"
-                        ItemsSource="{Binding Path=BinaryFiles}">
+                        ItemsSource="{Binding Path=BinaryFiles}"
+                        AllowDrop="True"
+                        Drop="DataGrid_Drop">
 
                         <DataGrid.Columns>
                             <DataGridTextColumn
@@ -298,8 +300,10 @@
 
                     <DataGrid
                         Grid.Row="3"
+                        AllowDrop="True"
                         HeadersVisibility="None"
-                        ItemsSource="{Binding Path=ScreenFiles}">
+                        ItemsSource="{Binding Path=ScreenFiles}"
+                        Drop="DataGrid_Drop_1">
 
                         <DataGrid.Columns>
                             <DataGridTextColumn

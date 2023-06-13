@@ -30,9 +30,14 @@ namespace TransformZxFiles
             this.DataContext = new ViewModel();
         }
 
-        private void DataGridTemplateColumn_SourceUpdated(object sender, DataTransferEventArgs e)
+        private void DataGrid_Drop(object sender, DragEventArgs e)
         {
+            ((ViewModel)DataContext).AddFiles((string[])e.Data.GetData("FileDrop"), FormatEnum.tap);
+        }
 
+        private void DataGrid_Drop_1(object sender, DragEventArgs e)
+        {
+            ((ViewModel)DataContext).AddFiles((string[])e.Data.GetData("FileDrop"), FormatEnum.bmp);
         }
     }
 }

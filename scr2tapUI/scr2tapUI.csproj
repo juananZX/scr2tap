@@ -79,11 +79,5 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\convertScr\convertScr.csproj">
-      <Project>{84719005-9aaf-4e13-a712-574d0f48c62d}</Project>
-      <Name>convertScr</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
