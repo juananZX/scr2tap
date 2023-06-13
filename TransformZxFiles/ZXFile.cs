@@ -62,6 +62,7 @@ namespace ZxFilesConverter
                     }
 
                     NotifyPropertyChanged("Address");
+                    NotifyPropertyChanged("BlockType");
                 }
             }
         }
@@ -82,6 +83,8 @@ namespace ZxFilesConverter
                 header = value?.ZXCharacter();
             }
         }
+
+        public bool IsSelected { get; set; }
 
         public string Path { get; set; }
 

@@ -25,6 +25,7 @@ namespace ZxFilesConverter
     internal class ViewModel : INotifyPropertyChanged
     {
         #region Fields
+        private CommandHandler blockTypeCommand;
         private CommandHandler clearCommand;
         private CommandHandler clearListCommand;
         private Cursor cursor = Cursors.Arrow;
@@ -103,6 +104,14 @@ namespace ZxFilesConverter
         public ObservableCollection<ZXFile> BinaryFiles { get; private set; }
 
         public Dictionary<int, string> BlockTypes { get; set; }
+
+        public CommandHandler BlockTypeCommand
+        {
+            get
+            {
+                return blockTypeCommand ?? (blockTypeCommand = new CommandHandler(param => BlockType(param), () => BinaryFiles.Any()));
+            }
+        }
 
         public CommandHandler ClearCommand
         {
@@ -249,6 +258,18 @@ namespace ZxFilesConverter
                 if (ScreenFiles.Any(i => i.Filename.Equals(filename, StringComparison.OrdinalIgnoreCase))) continue;
 
                 ScreenFiles.Add(new ZXFile(filename, string.Empty, file, FormatEnum.tap));
+            }
+        }
+
+        private void BlockType(object param)
+        {
+            int blockType = 0;
+
+            int.TryParse(string.Format("{0}", param), out blockType);
+
+            foreach(ZXFile f in BinaryFiles)
+            {
+                if (f.IsSelected) f.BlockType = blockType;
             }
         }
 

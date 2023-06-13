@@ -15,6 +15,14 @@
     Title="{Binding Path=Translator.AppTitle, UpdateSourceTrigger=PropertyChanged}"
     WindowStyle="ThreeDBorderWindow">
 
+    <Window.Resources>
+        <ContextMenu x:Key="BlockTypeMenu">
+            <MenuItem Header="Bytes" Command="{Binding Path=BlockTypeCommand}" CommandParameter="0"></MenuItem>
+            <MenuItem Header="Program" Command="{Binding Path=BlockTypeCommand}" CommandParameter="1"></MenuItem>
+            <MenuItem Header="Autoload" Command="{Binding Path=BlockTypeCommand}" CommandParameter="2"></MenuItem>
+        </ContextMenu>
+    </Window.Resources>
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="10"></RowDefinition>
@@ -151,11 +159,23 @@
                     </Grid>
 
                     <DataGrid
+                        x:Name="gridBin2Tap"
+                        
                         Grid.Row="3"
-                        ItemsSource="{Binding Path=BinaryFiles}"
+                        
                         AllowDrop="True"
+                        ContextMenu="{StaticResource ResourceKey=BlockTypeMenu}"
+                        ItemsSource="{Binding Path=BinaryFiles}"
+                        SelectionMode="Extended"
+                        
                         Drop="DataGrid_Drop">
 
+                        <DataGrid.RowStyle>
+                            <Style TargetType="DataGridRow">
+                                <Setter Property="IsSelected" Value="{Binding Path=IsSelected, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"></Setter>
+                            </Style>
+                        </DataGrid.RowStyle>
+                        
                         <DataGrid.Columns>
                             <DataGridTextColumn
                                 Binding="{Binding Path=Filename}"
@@ -167,7 +187,7 @@
                                         Text="{Binding Path=DataContext.Translator.File, RelativeSource={RelativeSource AncestorType=Window, Mode=FindAncestor}}">
                                     </TextBlock>
                                 </DataGridTextColumn.Header>
-                                
+
                                 <DataGridTextColumn.CellStyle>
                                     <Style TargetType="DataGridCell">
                                         <Setter Property="Background" Value="LightGray"></Setter>
@@ -199,7 +219,7 @@
                                     <TextBlock
                                         Text="{Binding Path=DataContext.Translator.BlockType, RelativeSource={RelativeSource AncestorType=Window, Mode=FindAncestor}}"></TextBlock>
                                 </DataGridTemplateColumn.Header>
-                                
+
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <ComboBox
@@ -212,9 +232,9 @@
                                             </ComboBox.Items>
                                         </ComboBox>
                                     </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>    
+                                </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
-                            
+
                             <DataGridTextColumn
                                 Binding="{Binding Path=Address, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                 Width="*">
@@ -235,7 +255,7 @@
                             <DataGridTemplateColumn
                                 IsReadOnly="True"
                                 Width="100">
-                                
+
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <Button
