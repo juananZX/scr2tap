@@ -11,7 +11,7 @@
     
     Cursor="{Binding Path=Cursor, UpdateSourceTrigger=PropertyChanged}" 
     Height="728" Width="1024"
-    ResizeMode="CanMinimize"
+    ResizeMode="CanResize"
     Title="{Binding Path=Translator.AppTitle, UpdateSourceTrigger=PropertyChanged}"
     WindowStyle="ThreeDBorderWindow">
 
