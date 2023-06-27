@@ -1,16 +1,16 @@
 Convert ZX Spectrum screen files to tape files.
 
-12/05/2023 v1.0.0
+12/05/2023 v1.0
     Convert ZX Spectrum screen files to tape files, from the command line.
     scr2tap file1.scr, [file2.scr], [file3.scr] ...
 
-20/05/2023 v1.0.1
+20/05/2023 v1.1
     Added UI.
 
-05/06/2023 v1.0.2
+05/06/2023 v1.2
     New UI.
     Added conversion of screen files to image files in UI.
 
-27/06/2023 v1.0.3
+27/06/2023 v1.3
     UI
         Bin to Tap: Added block type and Address / Line Autoload
