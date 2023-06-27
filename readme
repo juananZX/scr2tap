@@ -14,3 +14,4 @@ Convert ZX Spectrum screen files to tape files.
 27/06/2023 v1.3
     UI
         Bin to Tap: Added block type and Address / Line Autoload
+        Added Drag an Drop
