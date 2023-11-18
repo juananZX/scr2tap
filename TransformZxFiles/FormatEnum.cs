@@ -12,6 +12,7 @@ namespace ZxFilesConverter
         gif,
         jpeg,
         png,
-        tap
+        tap,
+        rle
     }
 }

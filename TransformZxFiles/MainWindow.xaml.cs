@@ -39,5 +39,10 @@ namespace TransformZxFiles
         {
             ((ViewModel)DataContext).AddFiles((string[])e.Data.GetData("FileDrop"), FormatEnum.bmp);
         }
+
+        private void DataGrid_Drop_2(object sender, DragEventArgs e)
+        {
+            ((ViewModel)DataContext).AddFiles((string[])e.Data.GetData("FileDrop"), FormatEnum.rle);
+        }
     }
 }

@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions.cs" />
+    <Compile Include="RLECompress.cs" />
     <Compile Include="ZXColor.cs" />
     <Compile Include="ZXColorEnum.cs" />
     <Compile Include="ZxFileConverter.cs" />

@@ -41,9 +41,15 @@ namespace ZxFilesConverter
 
         public string Remove { get; set; }
 
+        public string RLECompression { get; set; }
+
         public string ScreenToImage { get; set; }
 
         public string Transform { get; set; }
+
+        public string Unzip { get; set; }
+
+        public string Zip { get; set; }
 
         public void Load()
         {
@@ -75,8 +81,11 @@ namespace ZxFilesConverter
             Output = "Output folder";
             ProcessSuccess = "Process success";
             Remove = "Remove";
+            RLECompression = "RLE compression";
             ScreenToImage = "Screen to image";
             Transform = "Transform";
+            Unzip = "Unzip";
+            Zip = "Zip";
         }
 
         private void LoadEs()
@@ -96,8 +105,11 @@ namespace ZxFilesConverter
             Output = "Carpeta de salida";
             ProcessSuccess = "Proceso finalizado";
             Remove = "Quitar";
+            RLECompression = "Compresión RLE";
             ScreenToImage = "Pantalla a imagen";
             Transform = "Convertir";
+            Unzip = "Unzip";
+            Zip = "Zip";
         }
     }
 }
