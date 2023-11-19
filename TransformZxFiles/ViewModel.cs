@@ -243,6 +243,10 @@ namespace ZxFilesConverter
             {
                 AddBinary(files);
             }
+            else if (format == FormatEnum.rle)
+            {
+                AddRLE(files);
+            }
             else
             {
                 AddImage(files);
