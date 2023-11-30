@@ -43,6 +43,8 @@ namespace ZxFilesConverter
 
         public string RLECompression { get; set; }
 
+        public string RLE2Compression { get; set; }
+
         public string ScreenToImage { get; set; }
 
         public string Transform { get; set; }
@@ -82,6 +84,7 @@ namespace ZxFilesConverter
             ProcessSuccess = "Process success";
             Remove = "Remove";
             RLECompression = "RLE compression";
+            RLE2Compression = "RLE 2 compression";
             ScreenToImage = "Screen to image";
             Transform = "Transform";
             Unzip = "Unzip";
@@ -106,6 +109,7 @@ namespace ZxFilesConverter
             ProcessSuccess = "Proceso finalizado";
             Remove = "Quitar";
             RLECompression = "Compresión RLE";
+            RLE2Compression = "Compresión RLE 2";
             ScreenToImage = "Pantalla a imagen";
             Transform = "Convertir";
             Unzip = "Unzip";

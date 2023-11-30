@@ -35,6 +35,7 @@ namespace ZxFilesConverter
         private CommandHandler transformCommand;
         private CommandHandler transformScreenCommand;
         private CommandHandler transformRLECommand;
+        private CommandHandler transformRLE2Command;
         private KeyValuePair<string, string> languageSelected;
         private string outputFolder;
         #endregion
@@ -44,6 +45,7 @@ namespace ZxFilesConverter
         {
             BinaryFiles = new ObservableCollection<ZXFile>();
             RLEFiles = new ObservableCollection<ZXFile>();
+            RLE2Files = new ObservableCollection<ZXFile>();
             ScreenFiles = new ObservableCollection<ZXFile>();
 
             OutputFolder = string.Format("{0}", Settings.Default.outputbinary);
@@ -93,6 +95,14 @@ namespace ZxFilesConverter
             get
             {
                 return RLEFiles.Any();
+            }
+        }
+
+        public bool CanTransformRLE2
+        {
+            get
+            {
+                return RLE2Files.Any();
             }
         }
 
@@ -187,6 +197,15 @@ namespace ZxFilesConverter
             }
         }
 
+
+        public CommandHandler TransformRLE2Command
+        {
+            get
+            {
+                return transformRLE2Command ?? (transformRLE2Command = new CommandHandler(param => Transform(param), () => CanTransformRLE2));
+            }
+        }
+
         public Dictionary<string, string> Languages { get; private set; }
 
         public KeyValuePair<string, string> LanguageSelected 
@@ -228,6 +247,8 @@ namespace ZxFilesConverter
         }
 
         public ObservableCollection<ZXFile> RLEFiles { get; private set; }
+
+        public ObservableCollection<ZXFile> RLE2Files { get; private set; }
 
         public ObservableCollection<ZXFile> ScreenFiles { get; private set; }
 
@@ -298,6 +319,19 @@ namespace ZxFilesConverter
             }
         }
 
+        private void AddRLE2(string[] files)
+        {
+            foreach (string file in files)
+            {
+                string extension = Path.GetExtension(file);
+                string filename = !string.IsNullOrWhiteSpace(extension) ? Path.GetFileName(file).Replace(extension, "") : Path.GetFileName(file);
+
+                if (RLE2Files.Any(i => i.Filename.Equals(filename, StringComparison.OrdinalIgnoreCase))) continue;
+
+                RLE2Files.Add(new ZXFile(filename, string.Empty, file, FormatEnum.rle2));
+            }
+        }
+
         private void BlockType(object param)
         {
             int blockType = 0;
@@ -328,6 +362,10 @@ namespace ZxFilesConverter
             {
                 RLEFiles.Clear();
             }
+            else if (param?.ToString() == "rle2")
+            {
+                RLE2Files.Clear();
+            }
             else
             {
                 ScreenFiles.Clear();
@@ -343,6 +381,10 @@ namespace ZxFilesConverter
                 dlg.Filter = "All (*.*)|*.*|ZX Spectrum Files (*.bin, *.scr)|*.bin;*.scr|Binary Files (*.bin)|*.bin|Screen Files (*.scr)|*.scr";
             }
             else if (param?.ToString() == "rle")
+            {
+                dlg.Filter = "All (*.*)|*.*";
+            }
+            else if (param?.ToString() == "rle2")
             {
                 dlg.Filter = "All (*.*)|*.*";
             }
@@ -362,6 +404,10 @@ namespace ZxFilesConverter
                 if (param?.ToString() == "rle")
                 {
                     AddRLE(dlg.FileNames);
+                }
+                if (param?.ToString() == "rle2")
+                {
+                    AddRLE2(dlg.FileNames);
                 }
                 else
                 {
@@ -400,6 +446,10 @@ namespace ZxFilesConverter
                 else if (((ZXFile)param).Format == FormatEnum.rle)
                 {
                     RLEFiles.Remove((ZXFile)param);
+                }
+                else if (((ZXFile)param).Format == FormatEnum.rle2)
+                {
+                    RLE2Files.Remove((ZXFile)param);
                 }
                 else
                 {
@@ -447,7 +497,7 @@ namespace ZxFilesConverter
                         }
                     }
                 }
-                else if(param?.ToString()=="unzip")
+                else if (param?.ToString() == "unzip")
                 {
                     foreach (ZXFile f in RLEFiles)
                     {
@@ -460,6 +510,28 @@ namespace ZxFilesConverter
                         if (!string.IsNullOrWhiteSpace(OutputFolder))
                         {
                             output = string.Format("{0}{1}.rlu", OutputFolder, f.Filename);
+                        }
+
+                        using (FileStream w = new FileStream(output, FileMode.Create, FileAccess.Write, FileShare.None, buffer.Length))
+                        {
+                            w.Write(buffer, 0, buffer.Length);
+                            w.Close();
+                        }
+                    }
+                }
+                else if (param?.ToString() == "unzip2")
+                {
+                    foreach (ZXFile f in RLEFiles)
+                    {
+                        currentFile = f.Filename;
+
+                        byte[] buffer = RLECompression.Decompress2(f.Path);
+                        string oldExtension = Path.GetExtension(f.Path);
+                        string output = !string.IsNullOrWhiteSpace(oldExtension) ? f.Path.Replace(Path.GetExtension(f.Path), ".r2u") : f.Path + ".r2u";
+
+                        if (!string.IsNullOrWhiteSpace(OutputFolder))
+                        {
+                            output = string.Format("{0}{1}.r2u", OutputFolder, f.Filename);
                         }
 
                         using (FileStream w = new FileStream(output, FileMode.Create, FileAccess.Write, FileShare.None, buffer.Length))
@@ -482,6 +554,28 @@ namespace ZxFilesConverter
                         if (!string.IsNullOrWhiteSpace(OutputFolder))
                         {
                             output = string.Format("{0}{1}.rlz", OutputFolder, f.Filename);
+                        }
+
+                        using (FileStream w = new FileStream(output, FileMode.Create, FileAccess.Write, FileShare.None, buffer.Length))
+                        {
+                            w.Write(buffer, 0, buffer.Length);
+                            w.Close();
+                        }
+                    }
+                }
+                else if (param?.ToString() == "zip2")
+                {
+                    foreach (ZXFile f in RLE2Files)
+                    {
+                        currentFile = f.Filename;
+
+                        byte[] buffer = RLECompression.Compress2(f.Path);
+                        string oldExtension = Path.GetExtension(f.Path);
+                        string output = !string.IsNullOrWhiteSpace(oldExtension) ? f.Path.Replace(Path.GetExtension(f.Path), ".r2z") : f.Path + ".r2z";
+
+                        if (!string.IsNullOrWhiteSpace(OutputFolder))
+                        {
+                            output = string.Format("{0}{1}.r2z", OutputFolder, f.Filename);
                         }
 
                         using (FileStream w = new FileStream(output, FileMode.Create, FileAccess.Write, FileShare.None, buffer.Length))

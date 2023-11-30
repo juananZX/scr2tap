@@ -13,6 +13,7 @@ namespace ZxFilesConverter
         jpeg,
         png,
         tap,
-        rle
+        rle,
+        rle2
     }
 }
