@@ -53,6 +53,8 @@ namespace ZxFilesConverter
 
         public string Zip { get; set; }
 
+        public string ZX0Compression { get; set; }
+
         public void Load()
         {
             switch(Code?.ToLower()) 
@@ -89,6 +91,7 @@ namespace ZxFilesConverter
             Transform = "Transform";
             Unzip = "Unzip";
             Zip = "Zip";
+            ZX0Compression = "zx0 compression";
         }
 
         private void LoadEs()
@@ -114,6 +117,7 @@ namespace ZxFilesConverter
             Transform = "Convertir";
             Unzip = "Unzip";
             Zip = "Zip";
+            ZX0Compression = "Compresión zx0";
         }
     }
 }

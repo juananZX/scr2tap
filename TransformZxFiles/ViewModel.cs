@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -36,6 +37,7 @@ namespace ZxFilesConverter
         private CommandHandler transformScreenCommand;
         private CommandHandler transformRLECommand;
         private CommandHandler transformRLE2Command;
+        private CommandHandler transformZX0Command;
         private KeyValuePair<string, string> languageSelected;
         private string outputFolder;
         #endregion
@@ -46,6 +48,7 @@ namespace ZxFilesConverter
             BinaryFiles = new ObservableCollection<ZXFile>();
             RLEFiles = new ObservableCollection<ZXFile>();
             RLE2Files = new ObservableCollection<ZXFile>();
+            ZX0Files = new ObservableCollection<ZXFile>();
             ScreenFiles = new ObservableCollection<ZXFile>();
 
             OutputFolder = string.Format("{0}", Settings.Default.outputbinary);
@@ -103,6 +106,14 @@ namespace ZxFilesConverter
             get
             {
                 return RLE2Files.Any();
+            }
+        }
+
+        public bool CanTransformZX0
+        {
+            get
+            {
+                return ZX0Files.Any();
             }
         }
 
@@ -206,6 +217,14 @@ namespace ZxFilesConverter
             }
         }
 
+        public CommandHandler TransformZX0Command
+        {
+            get
+            {
+                return transformZX0Command ?? (transformZX0Command = new CommandHandler(param => Transform(param), () => CanTransformZX0));
+            }
+        }
+
         public Dictionary<string, string> Languages { get; private set; }
 
         public KeyValuePair<string, string> LanguageSelected 
@@ -249,6 +268,8 @@ namespace ZxFilesConverter
         public ObservableCollection<ZXFile> RLEFiles { get; private set; }
 
         public ObservableCollection<ZXFile> RLE2Files { get; private set; }
+
+        public ObservableCollection<ZXFile> ZX0Files { get; private set; }
 
         public ObservableCollection<ZXFile> ScreenFiles { get; private set; }
 
@@ -332,6 +353,19 @@ namespace ZxFilesConverter
             }
         }
 
+        private void AddZX0(string[] files)
+        {
+            foreach (string file in files)
+            {
+                string extension = Path.GetExtension(file);
+                string filename = !string.IsNullOrWhiteSpace(extension) ? Path.GetFileName(file).Replace(extension, "") : Path.GetFileName(file);
+
+                if (ZX0Files.Any(i => i.Filename.Equals(filename, StringComparison.OrdinalIgnoreCase))) continue;
+
+                ZX0Files.Add(new ZXFile(filename, string.Empty, file, FormatEnum.zx0));
+            }
+        }
+
         private void BlockType(object param)
         {
             int blockType = 0;
@@ -346,7 +380,7 @@ namespace ZxFilesConverter
 
         private void Clear(object param)
         {
-            if (param?.ToString() == "binary" || param?.ToString() == "rle")
+            if (param?.ToString() == "binary" || param?.ToString() == "rle" || param?.ToString() == "rle2")
             {
                 OutputFolder = string.Empty;
             }
@@ -365,6 +399,10 @@ namespace ZxFilesConverter
             else if (param?.ToString() == "rle2")
             {
                 RLE2Files.Clear();
+            }
+            else if (param?.ToString() == "zx0")
+            {
+                ZX0Files.Clear();
             }
             else
             {
@@ -388,6 +426,10 @@ namespace ZxFilesConverter
             {
                 dlg.Filter = "All (*.*)|*.*";
             }
+            else if (param?.ToString() == "zx0")
+            {
+                dlg.Filter = "All (*.*)|*.*";
+            }
             else
             {
                 dlg.Filter = "Screen Files (*.scr)|*.scr";
@@ -401,13 +443,17 @@ namespace ZxFilesConverter
                 {
                     AddBinary(dlg.FileNames);
                 }
-                if (param?.ToString() == "rle")
+                else if (param?.ToString() == "rle")
                 {
                     AddRLE(dlg.FileNames);
                 }
-                if (param?.ToString() == "rle2")
+                else if (param?.ToString() == "rle2")
                 {
                     AddRLE2(dlg.FileNames);
+                }
+                else if (param?.ToString() == "zx0")
+                {
+                    AddZX0(dlg.FileNames);
                 }
                 else
                 {
@@ -450,6 +496,10 @@ namespace ZxFilesConverter
                 else if (((ZXFile)param).Format == FormatEnum.rle2)
                 {
                     RLE2Files.Remove((ZXFile)param);
+                }
+                else if (((ZXFile)param).Format == FormatEnum.zx0)
+                {
+                    ZX0Files.Remove((ZXFile)param);
                 }
                 else
                 {
@@ -583,6 +633,21 @@ namespace ZxFilesConverter
                             w.Write(buffer, 0, buffer.Length);
                             w.Close();
                         }
+                    }
+                }
+                else if (param?.ToString() == "zipZX0")
+                {
+                    foreach (ZXFile f in ZX0Files)
+                    {
+                        currentFile = f.Path;
+                        string destinyFile = string.Format("{0}.{1}", currentFile, "zx0");
+
+                        if (File.Exists(destinyFile))
+                        {
+                            File.Delete(destinyFile);
+                        }
+
+                        Process.Start("zx0", currentFile);
                     }
                 }
                 else

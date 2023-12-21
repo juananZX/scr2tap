@@ -551,6 +551,88 @@
                     </DataGrid>
                 </Grid>
             </TabItem>
+
+            <TabItem 
+                Header="{Binding Path=Translator.ZX0Compression}"
+                VerticalAlignment="Stretch"
+                Width="200">
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="10"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="10"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+
+                    <Grid
+                        Grid.Row="1">
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <ColumnDefinition Width="10"></ColumnDefinition>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <ColumnDefinition Width="10"></ColumnDefinition>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <ColumnDefinition Width="10"></ColumnDefinition>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+
+                        <Button
+                            Grid.Column="0"
+                            Content="{Binding Path=Translator.AddFiles}"
+                            Command="{Binding Path=FindCommand}"
+                            CommandParameter="zx0">
+                        </Button>
+
+                        <Button
+                            Grid.Column="2"
+                            Content="{Binding Path=Translator.Zip}"
+                            Command="{Binding Path=TransformZX0Command}"
+                            CommandParameter="zipZX0">
+                        </Button>
+
+                        <Button
+                            Grid.Column="6"
+                            Content="{Binding Path=Translator.Clear}"
+                            Command="{Binding Path=ClearListCommand}"
+                            CommandParameter="zx0">
+                        </Button>
+                    </Grid>
+
+                    <DataGrid
+                        Grid.Row="3"
+                        AllowDrop="True"
+                        HeadersVisibility="None"
+                        ItemsSource="{Binding Path=ZX0Files}"
+                        Drop="DataGrid_Drop_2">
+
+                        <DataGrid.Columns>
+                            <DataGridTextColumn
+                                Binding="{Binding Path=Path}"
+                                IsReadOnly="True"
+                                Width="*">
+                            </DataGridTextColumn>
+
+                            <DataGridTemplateColumn
+                                IsReadOnly="True"
+                                Width="100">
+
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button
+                                            Content="{Binding Path=DataContext.Translator.Remove, RelativeSource={RelativeSource AncestorType=Window}}"
+                                            Command="{Binding Path=DataContext.DeleteCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                            CommandParameter="{Binding}">
+                                        </Button>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
         </TabControl>    
     </Grid>
 </Window>

@@ -14,6 +14,7 @@ namespace ZxFilesConverter
         png,
         tap,
         rle,
-        rle2
+        rle2,
+        zx0
     }
 }
