@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="czx0.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="RLECompress.cs" />
     <Compile Include="ZXColor.cs" />
@@ -49,6 +50,17 @@
     <Compile Include="ZxFileConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ZXVideoByte.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="zx0c\compress.c" />
+    <Content Include="zx0c\dzx0.c" />
+    <Content Include="zx0c\memory.c" />
+    <Content Include="zx0c\optimize.c" />
+    <Content Include="zx0c\zx0.c" />
+    <Content Include="zx0c\zx0.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="zx0c\Makefile" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
