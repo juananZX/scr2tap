@@ -42,9 +42,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="czx0.cs" />
+    <Compile Include="zx0\Compressor.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="RLECompress.cs" />
+    <Compile Include="zx0\Block.cs" />
+    <Compile Include="zx0\Optimizer.cs" />
     <Compile Include="ZXColor.cs" />
     <Compile Include="ZXColorEnum.cs" />
     <Compile Include="ZxFileConverter.cs" />
@@ -52,15 +54,20 @@
     <Compile Include="ZXVideoByte.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="zx0c\compress.c" />
-    <Content Include="zx0c\dzx0.c" />
-    <Content Include="zx0c\memory.c" />
-    <Content Include="zx0c\optimize.c" />
-    <Content Include="zx0c\zx0.c" />
-    <Content Include="zx0c\zx0.h" />
+    <Content Include="zx0\java\Block.java" />
+    <Content Include="zx0\c++\compress.c" />
+    <Content Include="zx0\java\Compressor.java" />
+    <Content Include="zx0\java\Decompressor.java" />
+    <Content Include="zx0\c++\dzx0.c" />
+    <Content Include="zx0\java\Main.java" />
+    <Content Include="zx0\c++\memory.c" />
+    <Content Include="zx0\c++\optimize.c" />
+    <Content Include="zx0\java\Optimizer.java" />
+    <Content Include="zx0\c++\zx0.c" />
+    <Content Include="zx0\c++\zx0.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="zx0c\Makefile" />
+    <None Include="zx0\c++\Makefile" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

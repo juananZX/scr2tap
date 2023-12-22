@@ -1,6 +1,5 @@
-﻿/*
+/*
  * (c) Copyright 2021 by Einar Saukas. All rights reserved.
- * (c) Copyright 2024 by Juan Antonio Rubio García. All right reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -24,60 +23,38 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using System;
-using System.Collections.Generic;
-using System.Drawing.Printing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+package zx0;
 
-namespace ZxFilesConverter
-{
-    public class czx0
-    {
-        public const byte INITIAL_OFFSET = 1;
-        
-        public const byte FALSE = 0;
-        public const byte TRUE = 1;
+public class Block {
+    private final int bits;
+    private final int index;
+    private final int offset;
+    private Block chain;
 
-        public const short MAX_OFFSET_ZX0 = 32640;
-        public const short MAX_OFFSET_ZX7 = 32640;
+    public Block(int bits, int index, int offset, Block chain) {
+        this.bits = bits;
+        this.index = index;
+        this.offset = offset;
+        this.chain = chain;
+    }
 
-        public struct BlockT
-        {
-            int bits;
-            int index;
-            int offset;
-            int references;
-        }
+    public int getBits() {
+        return bits;
+    }
 
-        public struct Block
-        {
-            BlockT chain;
-            BlockT ghost_chain;
-            int bits;
-            int index;
-            int offset;
-            int references;
-        }
+    public int getIndex() {
+        return index;
+    }
 
-        public Block Allocate(int bits, int index, int offset, Block chain)
-        {
-            return new Block();
-        }
+    public int getOffset() {
+        return offset;
+    }
 
-        public void assign(Block ptr, Block chain)
-        {
-        }
+    public Block getChain() {
+        return chain;
+    }
 
-        public Block Optimize(char inputData, int inputSize, int skip, int offsetLimit)
-        {
-            return new Block();
-        }
-
-        public char Compress(Block optimal, char inputData, int inputSize, int skip, int backwardsMode, int invertMode, int outputSize, int delta)
-        {
-            return Convert.ToChar(0);
-        }
+    public void setChain(Block chain) {
+        this.chain = chain;
     }
 }
