@@ -637,22 +637,35 @@ namespace ZxFilesConverter
                 }
                 else if (param?.ToString() == "zipZX0")
                 {
-                    Process proc = new Process();
-                    proc.StartInfo.UseShellExecute = true;
-                    proc.StartInfo.CreateNoWindow = false;
-                    proc.StartInfo.FileName = "zx0.exe";
-                    
+                    StringBuilder sb = new StringBuilder();
+
                     foreach (ZXFile f in ZX0Files)
                     {
                         currentFile = f.Path;
-                        
                         string destinyFile = currentFile.Replace(Path.GetExtension(currentFile), ".zx0");
-                        string arguments = string.Format("-f {0} {1}", currentFile, destinyFile);
+                        string line = string.Format("zx0.exe -f {0} {1}", currentFile, destinyFile);
 
-                        proc.StartInfo.Arguments = arguments;
+                        sb.AppendLine(line);
+                    }
+
+                    using (StreamWriter wr = new StreamWriter("czx0.bat", false, Encoding.Default))
+                    {
+                        wr.Write(sb.ToString());
+                        wr.Flush();
+                        wr.Close();
+                    }
+
+                    using (Process proc = new Process())
+                    {
+                        proc.StartInfo.UseShellExecute = true;
+                        proc.StartInfo.CreateNoWindow = false;
+                        proc.StartInfo.FileName = "czx0.bat";
+
                         proc.Start();
                         proc.WaitForExit();
+                        proc.Close();
                     }
+                    
                 }
                 else
                 {
