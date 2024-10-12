@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using System.Text;
@@ -13,9 +14,29 @@ namespace ZxFilesConverter
     /// </summary>
     internal class Bin2Tap
     {
+        /// <summary>
+        /// Convierte binarios en archivos .tap
+        /// </summary>
+        /// <param name="args">Argumentos.</param>
+        /// <returns>Resultado del programa.</returns>
+        /// <remarks>
+        /// Puede procesar uno o más ficheros.
+        /// -i:   path del fichero de entrada. Si se omite -i se asume como fichero de entrada
+        /// [-f]: carpeta donde está los ficheros.
+        /// [-x]: cadena de búsqueda para los ficheros.
+        /// [-q]: no muestra mensajes.
+        /// [-o]: path del fichero de salida. Por defecto fichero de entrada con extensión .tap.
+        /// [-a]: dirección o línea basic de inicio.
+        /// [-p]: tipo de bloque. Por defecto 0 (bytes), 1 = programa.
+        /// [-s]: nombre del bloque. Por defecto los 10 primeros caracteres del nombre del fichero de entrada sin extensión.
+        /// 
+        /// Si se especifican algunos de los parámetros opcionales y más de un fichero de entrada, 
+        /// se deben especificar todos esos parámetros para todos los ficheros de entrada.
+        /// </remarks>
         static int Main(string[] args)
         {
             StringBuilder error = new StringBuilder();
+            bool quiet = false;
 
             if (args == null || args.Length == 0)
             {
@@ -40,6 +61,13 @@ namespace ZxFilesConverter
                     }
 
                     string param = arg.ToLower().Substring(0, 2);
+
+                    if(param == "-q")
+                    {
+                        quiet = true;
+                        continue;
+                    }
+
                     string value = arg.Substring(2);
                     int valueInt = 0;
 
@@ -51,7 +79,7 @@ namespace ZxFilesConverter
                         case "-a":
                             if (!int.TryParse(value, out valueInt))
                             {
-                                Console.WriteLine($"Bin2Tap: fatal error -3, param: {arg}");
+                                if (!quiet) Console.WriteLine($"Bin2Tap: fatal error -3, param: {arg}");
                                 return -3;
                             }
                             addresses.Add(valueInt);
@@ -62,7 +90,7 @@ namespace ZxFilesConverter
                         case "-p":
                             if (!int.TryParse(value, out valueInt))
                             {
-                                Console.WriteLine($"Bin2Tap: fatal error -3, param: {arg}");
+                                if (!quiet) Console.WriteLine($"Bin2Tap: fatal error -3, param: {arg}");
                                 return -3;
                             }
                             blockTypes.Add(valueInt);
@@ -76,16 +104,15 @@ namespace ZxFilesConverter
                     }
                 }
 
-                if (addresses.Any() && addresses.Count != inputPaths.Count) error.AppendLine($"inputs != addresses: {inputPaths.Count}, {addresses.Count}");
-                if (outputPaths.Any() && outputPaths.Count != inputPaths.Count) error.AppendLine($"inputs != oputputs: {inputPaths.Count}, {outputPaths.Count}");
-                if (blockTypes.Any() && blockTypes.Count != inputPaths.Count) error.AppendLine($"inputs != blockTypes: {inputPaths.Count}, {blockTypes.Count}");
-                if (blockNames.Any() && blockNames.Count != inputPaths.Count) error.AppendLine($"inputs != blockNames: {inputPaths.Count}, {blockNames.Count}");
+                if (addresses.Any() && addresses.Count != inputPaths.Count) error.AppendLine($"inputs length != addresses length: {inputPaths.Count}, {addresses.Count}");
+                if (outputPaths.Any() && outputPaths.Count != inputPaths.Count) error.AppendLine($"inputs length != ouptputs length: {inputPaths.Count}, {outputPaths.Count}");
+                if (blockTypes.Any() && blockTypes.Count != inputPaths.Count) error.AppendLine($"inputs length != blockTypes length: {inputPaths.Count}, {blockTypes.Count}");
+                if (blockNames.Any() && blockNames.Count != inputPaths.Count) error.AppendLine($"inputs length != blockNames length: {inputPaths.Count}, {blockNames.Count}");
 
                 if (error.Length > 0)
                 {
-                    Console.WriteLine("Bin2Tap: fatal error - 4:");
-                    Console.WriteLine(error.ToString());
-                    Console.ReadKey();
+                    if (!quiet) Console.WriteLine("Bin2Tap: fatal error - 4:");
+                    if (!quiet) Console.WriteLine(error.ToString());
                     return -4;
                 }
 
@@ -112,9 +139,12 @@ namespace ZxFilesConverter
                         w.Write(buffer, 0, buffer.Length);
                         w.Close();
                     }
+
+                    if (!quiet) Console.WriteLine($"File created: {Path.GetFileName(outputPath)}");
                 }
             }
 
+            if (!quiet) Console.WriteLine("Proccess sucess");
             return 0;
         }
     }
